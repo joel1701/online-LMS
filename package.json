@@ -1,0 +1,12 @@
+{
+  "name": "campuscore-lms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CampusCore – Learning Management System for Westmere University (MERN, mock data layer)",
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client"
+  }
+}
