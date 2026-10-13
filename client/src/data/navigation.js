@@ -42,4 +42,4 @@ const navigation = {
 
 export default navigation;
 
-export const CURRENT_TERM = 'Odd Semester 2026–27';
+export const CURRENT_TERM = 'V Semester 2026–27';

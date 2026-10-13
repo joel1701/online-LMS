@@ -6,6 +6,7 @@ import PageHeader from '../../components/PageHeader';
 import StatusBadge from '../../components/StatusBadge';
 import ProgressBar from '../../components/ProgressBar';
 import CourseListItem from '../../components/CourseListItem';
+import { COURSE_GROUPS } from '../../data/courseGroups';
 import { LoadingState, ErrorState, EmptyState } from '../../components/States';
 import { firstName, formatDate, formatShortDateTime, relativeTime, isDueSoon, percent } from '../../utils/format';
 
@@ -40,7 +41,7 @@ export default function StudentDashboard() {
       {header}
 
       {data.overdueCount > 0 && (
-        <div className="notice notice--warning" style={{ marginBottom: 20 }}>
+        <div className="notice" style={{ marginBottom: 20 }}>
           You have {data.overdueCount} overdue assignment{data.overdueCount > 1 ? 's' : ''} that {data.overdueCount > 1 ? 'were' : 'was'} not submitted.{' '}
           <Link to="/student/assignments?status=overdue">Review overdue work</Link>
         </div>
@@ -110,11 +111,20 @@ export default function StudentDashboard() {
             {data.courses.length === 0 ? (
               <EmptyState compact title="No enrolled courses" text="Contact your department office if you think this is a mistake." />
             ) : (
-              <ul className="course-list">
-                {data.courses.map((c) => (
-                  <CourseListItem key={c.id} course={c} compact />
-                ))}
-              </ul>
+              COURSE_GROUPS.map((g) => {
+                const items = data.courses.filter((c) => (c.type || 'theory') === g.type);
+                if (items.length === 0) return null;
+                return (
+                  <div key={g.type} className="course-group">
+                    <h3 className="course-group-label">{g.label}</h3>
+                    <ul className="course-list">
+                      {items.map((c) => (
+                        <CourseListItem key={c.id} course={c} compact />
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })
             )}
           </section>
 

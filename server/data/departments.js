@@ -1,4 +1,4 @@
-// TODO: Replace with a `departments` collection (or keep as static config).
+// Sample data. Seeds the MongoDB `departments` collection (npm run seed).
 module.exports = [
   { code: 'CSE', name: 'Computer Science and Engineering', headId: 'u-t2' },
   { code: 'ECE', name: 'Electronics and Communication Engineering', headId: 'u-t5' },

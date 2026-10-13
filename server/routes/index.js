@@ -1,8 +1,9 @@
+const store = require('../db/store');
 const router = require('express').Router();
 const { authenticate, requireRole } = require('../middleware/auth');
 const misc = require('../controllers/miscController');
 
-router.get('/health', (req, res) => res.json({ status: 'ok', dataSource: 'in-memory mock data' }));
+router.get('/health', (req, res) => res.json({ status: 'ok', dataSource: store.isEnabled() ? 'MongoDB' : 'in-memory sample data' }));
 
 router.use('/auth', require('./authRoutes'));
 

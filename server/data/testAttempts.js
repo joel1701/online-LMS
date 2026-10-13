@@ -1,4 +1,4 @@
-// TODO: Replace with the `testAttempts` collection (testId -> tests, studentId -> users).
+// Sample data. Seeds the MongoDB `testattempts` collection (npm run seed).
 const tests = require('./tests');
 const { scoreAttempt } = require('../utils/scoring');
 

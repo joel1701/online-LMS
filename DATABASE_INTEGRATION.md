@@ -1,83 +1,52 @@
-# Database Integration (MongoDB)
+# Database (MongoDB)
 
-The API currently runs on in-memory arrays. Controllers and the React app do not touch data directly, so MongoDB can be added by changing the **data** and **services** layers only.
+The API stores all data in MongoDB using Mongoose. The React app is unchanged: it still calls the same REST endpoints and receives the same response shapes.
 
-## Where mock data lives
+## Setup
 
-`server/data/` — one file per entity:
+1. Start MongoDB (local Community Server, or a MongoDB Atlas cluster).
+2. `cp server/.env.example server/.env` and set `MONGODB_URI`, e.g.
+   - local: `mongodb://127.0.0.1:27017/campuscore`
+   - Atlas: `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/campuscore`
+3. `cd server && npm install && npm run seed`
+4. `npm run dev` – the log shows `Connected to MongoDB at …` and `(MongoDB)`.
 
-| File | Becomes collection |
+`GET /api/health` returns `{ "dataSource": "MongoDB" }` when the database is in use.
+
+## Collections
+
+| Collection | Model | Key relationships |
+| --- | --- | --- |
+| `users` | `models/User.js` | unique `universityId`, `email`; passwords stored as bcrypt `passwordHash` |
+| `departments` | `models/Department.js` | `headId` → users |
+| `courses` | `models/Course.js` | `teacherId` → users, `studentIds[]` → users (enrolment), `type` theory/practical |
+| `materials` | `models/Material.js` | `courseId` → courses, `uploadedBy` → users |
+| `assignments` | `models/Assignment.js` | `courseId` → courses, `createdBy` → users |
+| `submissions` | `models/Submission.js` | `assignmentId` → assignments, `studentId` → users; unique (assignmentId, studentId) |
+| `tests` | `models/Test.js` | `courseId` → courses; questions embedded |
+| `testattempts` | `models/TestAttempt.js` | `testId` → tests, `studentId` → users; unique (testId, studentId) |
+| `announcements` | `models/Announcement.js` | `courseId` → courses (null = university-wide), `postedBy` → users |
+| `activitylogs` | `models/ActivityLog.js` | `actorId` → users, `courseId` → courses |
+
+Every document carries an application `id` (for example `c-ml`, `u-s1`) that the API and frontend use; MongoDB's `_id` stays internal. Grades are not stored: `services/gradeService.js` computes them from submissions and test attempts using the CBIT 10-point scale (S, A, B, C, D, E, F).
+
+## How reads and writes work
+
+`server/db/store.js`:
+
+- **Startup** – connects, builds indexes, seeds any empty collection from `server/data/`, then loads every collection into the working arrays the services use.
+- **Every request** – before the response is sent, documents that were created, changed or deleted during the request are written to MongoDB with a single `bulkWrite` per collection (`replaceOne` with upsert, or `deleteOne`). The client only receives a success response after the data is saved.
+
+The services stay synchronous, so business rules (access checks, deadlines, test timing, grading) are unchanged.
+
+## Scripts
+
+| Command (in `server/`) | What it does |
 | --- | --- |
-| `users.js` | `users` |
-| `departments.js` | `departments` (or keep as static config) |
-| `courses.js` | `courses` |
-| `materials.js` | `materials` |
-| `assignments.js` | `assignments` |
-| `submissions.js` | `submissions` |
-| `tests.js` | `tests` (questions embedded) |
-| `testAttempts.js` | `testattempts` |
-| `announcements.js` | `announcements` |
-| `activity.js` | `activitylogs` |
+| `npm run seed` | Deletes all collections and inserts the sample data again. Dates are relative to today. |
+| `npm run dev` | Starts the API with auto-restart. |
 
-Seed dates are built with `utils/dates.js#daysFromNow`; a seed script can reuse these files to populate MongoDB once.
+## Next steps
 
-## Services to replace
-
-Each file in `server/services/` imports the arrays above. Replace those array operations with Mongoose queries and make the functions `async` (controllers already work with async functions under Express 5).
-
-| Service | Notes |
-| --- | --- |
-| `userService.js` | CRUD, `findByLogin` (email or universityId), `updateProfile`. Hash passwords. |
-| `authService.js` | Replace base64 token with `jsonwebtoken`; compare with bcrypt. |
-| `courseService.js` | Access checks (`canAccess`, `canManage`) and cascade delete. |
-| `materialService.js` | Also add real file storage (GridFS / S3). |
-| `assignmentService.js` | |
-| `submissionService.js` | Upsert one submission per (assignment, student). |
-| `testService.js` | Start/save/submit attempts; never return `correctIndex` to students. |
-| `gradeService.js` | Computes grades from submissions + attempts (no stored grades needed). |
-| `announcementService.js`, `activityService.js` | |
-| `dashboardService.js`, `notificationService.js`, `progressService.js` | Compose other services; change only if queries need optimising. |
-
-Also update: `server/middleware/auth.js` (verify JWT), `server/server.js` (connect before `listen`), `server/utils/ids.js` (remove; use ObjectIds).
-
-Search the code for `TODO` to find every integration point.
-
-## Suggested collections and relationships
-
-```
-User         { universityId (unique), name, email (unique), passwordHash, role: student|teacher|admin,
-               department, semester?, program?, batch?, designation?, office?, phone, status: active|disabled, joinedOn }
-Course       { code, title, department, semester, term, credits, teacherId -> User, studentIds [-> User],
-               status: active|archived, weights { assignments, tests }, description, schedule [], syllabus [] }
-Material     { courseId -> Course, week, title, type, description, fileName?, fileSize?, fileRef?, url?, uploadedBy -> User, uploadedAt }
-Assignment   { courseId -> Course, title, description, issueDate, dueDate, maxMarks, attachment?, createdBy -> User }
-Submission   { assignmentId -> Assignment, studentId -> User, fileName, fileSize, comment, submittedAt,
-               status: submitted|graded, marks?, feedback, gradedAt?, gradedBy -> User }      unique (assignmentId, studentId)
-Test         { courseId -> Course, title, instructions, durationMinutes, availableFrom, availableUntil,
-               status: draft|published, showAnswers, questions [{ text, options [], correctIndex, marks }], createdBy -> User }
-TestAttempt  { testId -> Test, studentId -> User, answers { questionId: optionIndex }, startedAt, submittedAt?,
-               status: in-progress|submitted, score, totalMarks, correctCount, incorrectCount, unansweredCount }   unique (testId, studentId)
-Announcement { courseId? -> Course (null = university-wide), title, body, postedBy -> User, postedAt }
-ActivityLog  { actorId -> User, action, detail, courseId?, at }
-Grade        optional cache of gradeService output, keyed by (studentId, courseId)
-```
-
-Enrolment is stored as `Course.studentIds`. If enrolment grows complex (sections, drops, history), move it to an `enrollments` collection.
-
-## Environment variables
-
-Already used: `PORT`, `CLIENT_ORIGIN`, `MOCK_LATENCY_MS` (remove after integration).
-
-Needed for integration (listed in `server/.env.example`):
-
-```
-MONGODB_URI=mongodb://127.0.0.1:27017/campuscore
-JWT_SECRET=<long random string>
-JWT_EXPIRES_IN=1d
-```
-
-Add `dotenv` (or use `node --env-file=.env`) to load them.
-
-## Existing endpoints
-
-The full list with permissions is in `README.md` → *API overview*. Response shapes must stay the same so the frontend keeps working; in particular keep the `id` field (map `_id` to `id` with a `toJSON` transform) and the `{ message, fields }` validation error format.
+- Replace the base64 session token with a signed JWT (`jsonwebtoken`, `JWT_SECRET`).
+- Store uploaded files (GridFS or object storage) instead of only the file name and size.

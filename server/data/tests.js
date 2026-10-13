@@ -1,4 +1,4 @@
-// TODO: Replace with the `tests` collection. Questions can stay embedded
+// Sample data. Seeds the MongoDB `tests` collection (npm run seed).
 // in the test document.
 const { daysFromNow } = require('../utils/dates');
 
@@ -7,8 +7,8 @@ const q = (id, text, options, correctIndex, marks) => ({ id, text, options, corr
 const tests = [
   {
     id: 't-01',
-    courseId: 'c-cs301',
-    title: 'Quiz 1: Trees and Heaps',
+    courseId: 'c-ml',
+    title: 'Quiz 1: Regression and Model Evaluation',
     instructions: 'Answer all questions. Each question carries 2 marks. There is no negative marking.',
     durationMinutes: 20,
     availableFrom: daysFromNow(-10, 10, 0),
@@ -18,17 +18,17 @@ const tests = [
     createdBy: 'u-t2',
     createdAt: daysFromNow(-14, 12, 0),
     questions: [
-      q('q-0101', 'What is the maximum height of an AVL tree containing n nodes?', ['O(n)', 'O(log n)', 'O(n log n)', 'O(√n)'], 1, 2),
-      q('q-0102', 'In a binary heap stored in a 1-indexed array, the parent of the node at index i is at index:', ['2i', '⌊i/2⌋', '2i + 1', 'i − 1'], 1, 2),
-      q('q-0103', 'An inorder traversal of a binary search tree visits the keys in:', ['Sorted (ascending) order', 'Reverse sorted order', 'Level order', 'No particular order'], 0, 2),
-      q('q-0104', 'The time required to build a binary heap from n unsorted elements using bottom-up heapify is:', ['O(n log n)', 'O(log n)', 'O(n²)', 'O(n)'], 3, 2),
-      q('q-0105', 'Which rotation sequence fixes a Left-Right (LR) imbalance in an AVL tree?', ['Single right rotation', 'Single left rotation', 'Left rotation on the child, then right rotation on the node', 'Right rotation on the child, then left rotation on the node'], 2, 2),
+      q('q-0101', 'Which loss function does ordinary least squares regression minimise?', ['Cross-entropy loss', 'Mean squared error', 'Hinge loss', 'Mean absolute error'], 1, 2),
+      q('q-0102', 'The output of logistic regression for a single example is:', ['A class label chosen directly', 'A probability between 0 and 1 produced by the sigmoid function', 'An unbounded real number', 'A cluster index'], 1, 2),
+      q('q-0103', 'Increasing model complexity typically:', ['Reduces bias and increases variance', 'Increases bias and reduces variance', 'Reduces both bias and variance', 'Increases both bias and variance'], 0, 2),
+      q('q-0104', 'Which technique is commonly used to reduce overfitting in linear regression?', ['Increasing the learning rate', 'Removing the validation set', 'Adding more polynomial features', 'L2 regularization (ridge regression)'], 3, 2),
+      q('q-0105', 'In 5-fold cross-validation, each fold is used as the validation set:', ['Never', 'Five times', 'Exactly once', 'Twice'], 2, 2),
     ],
   },
   {
     id: 't-02',
-    courseId: 'c-cs305',
-    title: 'Quiz 2: Normalization and SQL',
+    courseId: 'c-flat',
+    title: 'Quiz 2: Regular Languages',
     instructions: 'This quiz has 8 questions worth 12 marks in total. Marks per question are shown next to each question. The timer starts when you begin and the quiz is submitted automatically when time runs out.',
     durationMinutes: 20,
     availableFrom: daysFromNow(-1, 9, 0),
@@ -38,20 +38,20 @@ const tests = [
     createdBy: 'u-t1',
     createdAt: daysFromNow(-4, 16, 0),
     questions: [
-      q('q-0201', 'A relation is in 2NF if it is in 1NF and:', ['No non-prime attribute is transitively dependent on any candidate key', 'No non-prime attribute is partially dependent on any candidate key', 'Every determinant is a candidate key', 'It has no multivalued dependencies'], 1, 1),
-      q('q-0202', 'For R(A, B, C, D) with F = {A → B, B → C, C → D}, the candidate key is:', ['A', 'AB', 'BC', 'ABCD'], 0, 2),
-      q('q-0203', 'Which normal form is strictly stronger than 3NF?', ['2NF', '1NF', 'None of these', 'BCNF'], 3, 1),
-      q('q-0204', 'Which SQL clause filters groups after aggregation?', ['WHERE', 'HAVING', 'GROUP BY', 'ORDER BY'], 1, 1),
-      q('q-0205', 'The result of R LEFT OUTER JOIN S contains:', ['Only rows that match in both R and S', 'All rows of R, with NULLs for S attributes where there is no match', 'All rows of S, with NULLs for R attributes where there is no match', 'The Cartesian product of R and S'], 1, 1),
-      q('q-0206', 'Given F = {A → B, B → C, AC → D}, the closure {A}⁺ is:', ['{A, B}', '{A, B, C}', '{A, B, C, D}', '{A, C, D}'], 2, 2),
-      q('q-0207', 'A decomposition of R into R1 and R2 is lossless-join if:', ['R1 ∪ R2 = R', 'R1 ∩ R2 = ∅', 'Both R1 and R2 are in BCNF', 'R1 ∩ R2 → R1 or R1 ∩ R2 → R2'], 3, 2),
-      q('q-0208', 'Which of the following ignores NULL values?', ['COUNT(*)', 'COUNT(column_name)', 'Both', 'Neither'], 1, 2),
+      q('q-0201', 'The class of languages accepted by finite automata is the class of:', ['Context-free languages', 'Regular languages', 'Recursive languages', 'Context-sensitive languages'], 1, 1),
+      q('q-0202', 'The minimum number of states in a DFA that accepts binary numbers divisible by 3 is:', ['3', '2', '4', '5'], 0, 2),
+      q('q-0203', 'Which of the following languages is NOT regular?', ['a*b*', '(ab)*', 'Strings over {a, b} with an even number of a’s', '{aⁿbⁿ | n ≥ 0}'], 3, 1),
+      q('q-0204', 'The pumping lemma for regular languages is mainly used to prove that a language is:', ['Regular', 'Not regular', 'Finite', 'Ambiguous'], 1, 1),
+      q('q-0205', 'An NFA with n states can be converted to an equivalent DFA with at most:', ['n states', '2ⁿ states', 'n² states', '2n states'], 1, 1),
+      q('q-0206', 'The regular expression (a + b)*abb denotes all strings over {a, b} that:', ['Start with abb', 'Contain abb exactly once', 'End with abb', 'Do not contain abb'], 2, 2),
+      q('q-0207', 'Which machine recognises exactly the context-free languages?', ['Finite automaton', 'Mealy machine', 'Linear bounded automaton', 'Pushdown automaton'], 3, 2),
+      q('q-0208', 'In a Mealy machine, the output depends on:', ['The current state only', 'The current state and the current input symbol', 'The input symbol only', 'The previous output'], 1, 2),
     ],
   },
   {
     id: 't-03',
-    courseId: 'c-cs305',
-    title: 'Mid-Semester Test: ER and Relational Model',
+    courseId: 'c-flat',
+    title: 'Mid-Semester Test: Finite Automata',
     instructions: 'Five questions, 4 marks each. Calculators are not required.',
     durationMinutes: 30,
     availableFrom: daysFromNow(-16, 10, 0),
@@ -61,16 +61,16 @@ const tests = [
     createdBy: 'u-t1',
     createdAt: daysFromNow(-20, 11, 0),
     questions: [
-      q('q-0301', 'A weak entity set is identified by:', ['Its own primary key', 'The primary key of its owner entity together with its partial key', 'A foreign key only', 'A surrogate key generated by the DBMS'], 1, 4),
-      q('q-0302', 'Which relational algebra operation is best suited for queries of the form “find students who have taken all courses”?', ['Natural join', 'Union', 'Projection', 'Division'], 3, 4),
-      q('q-0303', 'A foreign key constraint enforces:', ['Entity integrity', 'Domain integrity', 'Referential integrity', 'Key uniqueness'], 2, 4),
-      q('q-0304', 'If |R| = 5 tuples and |S| = 4 tuples, how many tuples are in R × S?', ['9', '20', '5', '4'], 1, 4),
-      q('q-0305', 'Which of the following is NOT a fundamental relational algebra operation?', ['Selection', 'Projection', 'Union', 'Natural join'], 3, 4),
+      q('q-0301', 'A DFA differs from an NFA in that:', ['A DFA may have ε-transitions', 'Every state of a DFA has exactly one transition for each input symbol', 'A DFA accepts a larger class of languages', 'A DFA has no final states'], 1, 4),
+      q('q-0302', 'Which regular expression describes all strings over {0, 1} that contain at least one 1?', ['0*', '(0 + 1)*', '1*0*', '(0 + 1)*1(0 + 1)*'], 3, 4),
+      q('q-0303', 'Two states of a DFA are equivalent if:', ['They have the same number of outgoing transitions', 'They are both final states', 'For every input string, both lead to acceptance or both lead to rejection', 'Both are reachable from the start state'], 2, 4),
+      q('q-0304', 'How many strings of length 3 are there over the alphabet {a, b}?', ['6', '8', '9', '3'], 1, 4),
+      q('q-0305', 'Which of the following is NOT part of the 5-tuple definition of a DFA?', ['Set of states', 'Input alphabet', 'Transition function', 'Stack alphabet'], 3, 4),
     ],
   },
   {
     id: 't-04',
-    courseId: 'c-cs307',
+    courseId: 'c-cn',
     title: 'Quiz: IP Addressing and Subnetting',
     instructions: 'Five questions, 2 marks each.',
     durationMinutes: 20,
@@ -90,7 +90,7 @@ const tests = [
   },
   {
     id: 't-05',
-    courseId: 'c-cs309',
+    courseId: 'c-os',
     title: 'Quiz: Process Synchronization',
     instructions: 'Five questions, 2 marks each.',
     durationMinutes: 15,
@@ -110,7 +110,7 @@ const tests = [
   },
   {
     id: 't-06',
-    courseId: 'c-se311',
+    courseId: 'c-se',
     title: 'Quiz 1: Software Process Models',
     instructions: 'Five questions, 2 marks each. Correct answers will not be shown after submission; they will be discussed in class.',
     durationMinutes: 15,
@@ -130,7 +130,7 @@ const tests = [
   },
   {
     id: 't-07',
-    courseId: 'c-se311',
+    courseId: 'c-se',
     title: 'Quiz 2: Software Testing',
     instructions: 'Three questions, 2 marks each.',
     durationMinutes: 10,
@@ -167,7 +167,7 @@ const tests = [
   },
   {
     id: 't-09',
-    courseId: 'c-cs309',
+    courseId: 'c-os',
     title: 'Quiz 1: Processes and CPU Scheduling',
     instructions: 'Five questions, 2 marks each.',
     durationMinutes: 15,

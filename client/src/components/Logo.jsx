@@ -1,4 +1,21 @@
+import { useState } from 'react';
+
+// College logo: place the image at client/public/cbit-logo.jpg.
+// If the file is missing, the default shield mark below is shown instead.
+const LOGO_SRC = '/cbit-logo.jpg';
+
 export function LogoMark({ className = 'brand__mark' }) {
+  const [failed, setFailed] = useState(false);
+  if (!failed) {
+    return (
+      <img
+        className={`${className} brand__mark--image`}
+        src={LOGO_SRC}
+        alt=""
+        onError={() => setFailed(true)}
+      />
+    );
+  }
   return (
     <svg className={className} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
       <path d="M16 2 L28 6 V15 C28 22.5 22.8 27.6 16 30 C9.2 27.6 4 22.5 4 15 V6 Z" fill="#ffffff" />
@@ -9,7 +26,7 @@ export function LogoMark({ className = 'brand__mark' }) {
   );
 }
 
-export default function Logo({ subtitle = 'Westmere University' }) {
+export default function Logo({ subtitle = 'Chaitanya Bharathi Institute of Technology' }) {
   return (
     <span className="brand">
       <LogoMark />

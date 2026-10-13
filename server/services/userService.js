@@ -1,8 +1,8 @@
-// TODO: Replace mockUserService with a MongoDB/Mongoose User model.
 const users = require('../data/users');
 const courses = require('../data/courses');
 const departments = require('../data/departments');
 const { createId } = require('../utils/ids');
+const { hashPassword } = require('../utils/password');
 const { notFound, conflict, badRequest } = require('../utils/httpError');
 const { check, isBlank, isEmail } = require('../utils/validate');
 const activity = require('./activityService');
@@ -11,7 +11,7 @@ const ROLES = ['student', 'teacher', 'admin'];
 
 function toPublic(user) {
   if (!user) return null;
-  const { password, ...rest } = user;
+  const { password, passwordHash, ...rest } = user;
   const dept = departments.find((d) => d.code === user.department);
   return { ...rest, departmentName: dept ? dept.name : user.department };
 }
@@ -56,7 +56,7 @@ function validateUser(data, existingId) {
   check([
     ['name', isBlank(data.name) && 'Name is required.'],
     ['universityId', isBlank(uid) && 'University ID is required.'],
-    ['universityId', !isBlank(uid) && !/^[A-Z0-9]{5,12}$/.test(uid) && 'Use 5–12 letters or digits, e.g. WU23CS014.'],
+    ['universityId', !isBlank(uid) && !/^[A-Z0-9-]{5,20}$/.test(uid) && 'Use 5–20 letters, digits or hyphens, e.g. 1601-24-737-039.'],
     ['universityId', users.some((u) => u.id !== existingId && u.universityId === uid) && 'This university ID is already in use.'],
     ['email', !isEmail(email) && 'Enter a valid email address.'],
     ['email', users.some((u) => u.id !== existingId && u.email.toLowerCase() === email) && 'This email is already registered.'],
@@ -86,7 +86,7 @@ function create(data, actor) {
     id: createId('u-'),
     ...clean,
     // TODO: generate a temporary password and email it once real auth exists.
-    password: users.DEMO_PASSWORD,
+    passwordHash: hashPassword(users.DEMO_PASSWORD),
     phone: '',
     joinedOn: new Date().toISOString().slice(0, 10),
   };

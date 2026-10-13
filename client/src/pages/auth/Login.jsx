@@ -7,7 +7,7 @@ import Logo from '../../components/Logo';
 
 // Demo accounts for evaluation. Remove once real accounts exist.
 const DEMO_ACCOUNTS = [
-  { role: 'student', label: 'Student', identifier: 'WU23CS014' },
+  { role: 'student', label: 'Student', identifier: '1601-24-737-039' },
   { role: 'teacher', label: 'Faculty', identifier: 'WUF1042' },
   { role: 'admin', label: 'Administrator', identifier: 'WUA0007' },
 ];
@@ -53,10 +53,10 @@ export default function Login() {
   return (
     <div className="auth">
       <aside className="auth__aside">
-        <Logo subtitle="Westmere University · Bengaluru" />
+        <Logo subtitle="Chaitanya Bharathi Institute of Technology · Hyderabad" />
         <div className="auth__aside-body">
           <h2>Learning Management System</h2>
-          <p>The academic portal for students, faculty and administrative staff of Westmere University.</p>
+          <p>The academic portal for students, faculty and administrative staff of Chaitanya Bharathi Institute of Technology.</p>
           <ul>
             <li>Lecture notes and course materials</li>
             <li>Assignment submission and feedback</li>
@@ -87,7 +87,7 @@ export default function Login() {
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             error={errors.identifier}
-            placeholder="e.g. WU23CS014"
+            placeholder="e.g. 1601-24-737-039"
           />
 
           <FormField label="Password" id="password" error={errors.password}>

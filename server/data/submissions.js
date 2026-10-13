@@ -1,4 +1,4 @@
-// TODO: Replace with the `submissions` collection
+// Sample data. Seeds the MongoDB `submissions` collection (npm run seed).
 // (assignmentId -> assignments, studentId -> users).
 const assignments = require('./assignments');
 
@@ -12,10 +12,10 @@ const FEEDBACK = {
 // A negative hours value means the work was submitted after the deadline.
 const seed = {
   'as-01': [
-    ['u-s1', 30, 17, 'Implemented in Java. Report is attached as a separate section in the PDF.'],
+    ['u-s1', 30, 17, 'Implemented in Python with NumPy. The report is the last section of the PDF.'],
     ['u-s2', 4, 15, ''],
     ['u-s3', 52, 19, ''],
-    ['u-s4', 2, 12, 'Delete operation does not rebalance in one edge case, noted in the report.'],
+    ['u-s4', 2, 12, 'Gradient descent diverges for the largest learning rate; this is discussed in the report.'],
     ['u-s5', 40, 18, ''],
     ['u-s6', 20, 14, ''],
     ['u-s7', 26, 16, ''],
@@ -23,8 +23,8 @@ const seed = {
     ['u-s10', -10, 11, 'Submitting late due to illness, medical certificate given to the department.'],
   ],
   'as-02': [
-    ['u-s3', 50, null, ''],
-    ['u-s5', 30, null, 'Problem 7 uses an iterative DFS.'],
+    ['u-s3', 140, null, ''],
+    ['u-s5', 130, null, 'Problem 7 is verified against scikit-learn’s DecisionTreeClassifier.'],
   ],
   'as-03': [
     ['u-s1', 48, 13, ''],
@@ -39,7 +39,7 @@ const seed = {
     ['u-s10', 5, 8, ''],
   ],
   'as-04': [
-    ['u-s1', 20, null, 'Relation R4 has two possible BCNF decompositions; I have shown both.'],
+    ['u-s1', 20, null, 'NFA 4 minimises to two equivalent DFAs; I have shown both.'],
     ['u-s2', 6, null, ''],
     ['u-s3', 40, null, ''],
     ['u-s4', -9, null, 'Apologies for the late submission.'],
@@ -49,7 +49,7 @@ const seed = {
     ['u-s9', 44, null, ''],
   ],
   'as-05': [
-    ['u-s3', 100, null, ''],
+    ['u-s3', 150, null, ''],
   ],
   'as-06': [
     ['u-s1', 18, 8, ''],
@@ -86,11 +86,41 @@ const seed = {
     ['u-s10', 2, 14, ''],
   ],
   'as-11': [
-    ['u-s1', 120, null, 'Class diagram is a first version; I will update it after the team review.'],
-    ['u-s9', 150, null, ''],
+    ['u-s1', 200, null, 'Class diagram is a first version; I will update it after the team review.'],
+    ['u-s9', 210, null, ''],
+  ],
+  'as-14': [
+    ['u-s1', 20, 17, 'Team 4 – Library Seat Booking System.'],
+    ['u-s2', 6, 15, ''],
+    ['u-s3', 40, 19, ''],
+    ['u-s4', 2, 12, ''],
+    ['u-s5', 30, 18, ''],
+    ['u-s6', 10, 14, ''],
+    ['u-s7', 26, 16, ''],
+    ['u-s8', -6, 11, ''],
+    ['u-s9', 48, 18, ''],
+    ['u-s10', 4, 13, ''],
+  ],
+  'as-16': [
+    ['u-s1', 30, 9, ''], ['u-s2', 12, 8, ''], ['u-s3', 50, 10, ''], ['u-s4', 3, 7, ''], ['u-s5', 26, 9, ''],
+    ['u-s6', 8, 8, ''], ['u-s7', 24, 9, ''], ['u-s8', 1, 6, ''], ['u-s9', 40, 10, ''], ['u-s10', 6, 7, ''],
+  ],
+  'as-17': [
+    ['u-s3', 150, null, ''],
+  ],
+  'as-18': [
+    ['u-s1', 18, 9, ''], ['u-s2', 10, 8, ''], ['u-s3', 44, 10, ''], ['u-s4', 2, 6, ''], ['u-s5', 20, 9, ''],
+    ['u-s6', 9, 8, ''], ['u-s7', 30, 9, ''], ['u-s9', 50, 10, ''], ['u-s10', -8, 6, ''],
+  ],
+  'as-20': [
+    ['u-s1', 24, 10, ''], ['u-s2', 8, 8, ''], ['u-s3', 36, 10, ''], ['u-s4', 4, 7, ''], ['u-s5', 28, 9, ''],
+    ['u-s6', 12, 8, ''], ['u-s7', 20, 9, ''], ['u-s8', 2, 7, ''], ['u-s9', 46, 10, ''], ['u-s10', 3, 8, ''],
+  ],
+  'as-21': [
+    ['u-s5', 100, null, ''], ['u-s9', 110, null, ''],
   ],
   'as-12': [
-    ['u-s11', 40, null, ''],
+    ['u-s11', 110, null, ''],
   ],
   'as-13': [
     ['u-s11', 30, 17, ''],
@@ -100,11 +130,17 @@ const seed = {
 };
 
 const fileNames = {
-  'as-01': 'AVL_Tree.zip',
-  'as-02': 'Graph_ProblemSet.pdf',
-  'as-03': 'Hospital_ER_Diagram.pdf',
-  'as-04': 'Normalization_Solutions.pdf',
-  'as-05': 'lab5_queries.sql',
+  'as-01': 'Linear_Regression.zip',
+  'as-02': 'DecisionTree_ProblemSet.pdf',
+  'as-03': 'DFA_Design.pdf',
+  'as-04': 'NFA_to_DFA_Solutions.pdf',
+  'as-05': 'jflap_exercises.zip',
+  'as-14': 'Project_Plan_WBS.pdf',
+  'as-16': 'SE_Lab_Record_1-4.pdf',
+  'as-17': 'UML_Class_Sequence.pdf',
+  'as-18': 'OS_Lab_Programs.zip',
+  'as-20': 'ML_Lab_Notebooks_1-4.zip',
+  'as-21': 'kmeans_iris.ipynb',
   'as-06': 'Subnetting_Worksheet_Solved.pdf',
   'as-08': 'cpu_scheduler.zip',
   'as-10': 'SRS_Team.pdf',

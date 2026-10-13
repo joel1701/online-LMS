@@ -8,7 +8,7 @@ import { LoadingState, ErrorState, EmptyState } from '../../components/States';
 import CourseGradeBreakdown from './CourseGradeBreakdown';
 import { percent } from '../../utils/format';
 
-const SCALE = 'O ≥ 90 · A+ ≥ 80 · A ≥ 70 · B+ ≥ 60 · B ≥ 50 · C ≥ 45 · P ≥ 40 · F < 40';
+const SCALE = 'S (10) ≥ 90 · A (9) ≥ 80 · B (8) ≥ 70 · C (7) ≥ 60 · D (6) ≥ 50 · E (5) ≥ 40 · F (0) < 40 · Ab (0) absent';
 
 export default function StudentGrades() {
   const [term, setTerm] = useState('');

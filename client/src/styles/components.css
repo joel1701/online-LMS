@@ -1180,6 +1180,16 @@
   flex-shrink: 0;
 }
 
+/* Raster college logo: white backing so a logo with a white background sits cleanly on the navy sidebar */
+.brand__mark--image {
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  object-fit: contain;
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+
 .brand__name {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
@@ -1190,6 +1200,7 @@
 
 .brand__sub {
   font-size: 11px;
+  max-width: 200px;
   letter-spacing: 0.04em;
   opacity: 0.75;
   line-height: 1.2;

@@ -1,9 +1,15 @@
-// TODO: Replace with the `users` collection. Passwords are plain text only
+// Sample data. Seeds the MongoDB `users` collection (npm run seed).
 // because this is mock data — hash them (bcrypt) when real auth is added.
 const DEMO_PASSWORD = 'westmere2026';
 
 const CSE_PROGRAM = 'B.Tech Computer Science and Engineering';
 const ECE_PROGRAM = 'B.Tech Electronics and Communication Engineering';
+
+// Roll number format: 1601-YY-BBB-NNN (college code, year of joining, branch code, serial)
+function batchFor(universityId) {
+  const start = 2000 + Number(universityId.slice(5, 7));
+  return `${start}–${start + 4}`;
+}
 
 function student(id, universityId, name, email, department, semester, program, extra = {}) {
   return {
@@ -16,10 +22,10 @@ function student(id, universityId, name, email, department, semester, program, e
     department,
     semester,
     program,
-    batch: universityId.startsWith('WU23') ? '2023–2027' : '2024–2028',
+    batch: batchFor(universityId),
     phone: '',
     status: 'active',
-    joinedOn: universityId.startsWith('WU23') ? '2023-08-01' : '2024-08-01',
+    joinedOn: `20${universityId.slice(5, 7)}-08-01`,
     ...extra,
   };
 }
@@ -100,20 +106,20 @@ const users = [
     joinedOn: '2021-07-12',
   }),
 
-  student('u-s1', 'WU23CS014', 'Joel Thomas', 'joel.thomas@westmere.edu.in', 'CSE', 5, CSE_PROGRAM, { phone: '+91 98450 22714' }),
-  student('u-s2', 'WU23CS002', 'Aarav Mehta', 'aarav.mehta@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s3', 'WU23CS031', 'Neha Reddy', 'neha.reddy@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s4', 'WU23CS027', 'Rohan Kapoor', 'rohan.kapoor@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s5', 'WU23CS036', 'Priya Nair', 'priya.nair@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s6', 'WU23CS019', 'Karthik Iyer', 'karthik.iyer@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s7', 'WU23CS041', 'Sneha Kulkarni', 'sneha.kulkarni@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s8', 'WU23CS005', 'Arjun Menon', 'arjun.menon@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s9', 'WU23CS012', 'Fatima Sheikh', 'fatima.sheikh@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s10', 'WU23CS048', 'Vivek Bhat', 'vivek.bhat@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
-  student('u-s11', 'WU24EC007', 'Ishita Verma', 'ishita.verma@westmere.edu.in', 'ECE', 3, ECE_PROGRAM),
-  student('u-s12', 'WU24EC015', 'Siddharth Joshi', 'siddharth.joshi@westmere.edu.in', 'ECE', 3, ECE_PROGRAM),
-  student('u-s13', 'WU24EC022', 'Meera Pillai', 'meera.pillai@westmere.edu.in', 'ECE', 3, ECE_PROGRAM),
-  student('u-s14', 'WU24EC030', 'Aditya Kulkarni', 'aditya.kulkarni@westmere.edu.in', 'ECE', 3, ECE_PROGRAM, { status: 'disabled' }),
+  student('u-s1', '1601-24-737-039', 'Joel Thomas', 'joel.thomas@westmere.edu.in', 'CSE', 5, CSE_PROGRAM, { phone: '+91 98450 22714' }),
+  student('u-s2', '1601-24-737-002', 'Aarav Mehta', 'aarav.mehta@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s3', '1601-24-737-031', 'Neha Reddy', 'neha.reddy@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s4', '1601-24-737-027', 'Rohan Kapoor', 'rohan.kapoor@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s5', '1601-24-737-036', 'Priya Nair', 'priya.nair@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s6', '1601-24-737-019', 'Karthik Iyer', 'karthik.iyer@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s7', '1601-24-737-041', 'Sneha Kulkarni', 'sneha.kulkarni@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s8', '1601-24-737-005', 'Arjun Menon', 'arjun.menon@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s9', '1601-24-737-012', 'Fatima Sheikh', 'fatima.sheikh@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s10', '1601-24-737-048', 'Vivek Bhat', 'vivek.bhat@westmere.edu.in', 'CSE', 5, CSE_PROGRAM),
+  student('u-s11', '1601-25-735-007', 'Ishita Verma', 'ishita.verma@westmere.edu.in', 'ECE', 3, ECE_PROGRAM),
+  student('u-s12', '1601-25-735-015', 'Siddharth Joshi', 'siddharth.joshi@westmere.edu.in', 'ECE', 3, ECE_PROGRAM),
+  student('u-s13', '1601-25-735-022', 'Meera Pillai', 'meera.pillai@westmere.edu.in', 'ECE', 3, ECE_PROGRAM),
+  student('u-s14', '1601-25-735-030', 'Aditya Kulkarni', 'aditya.kulkarni@westmere.edu.in', 'ECE', 3, ECE_PROGRAM, { status: 'disabled' }),
 ];
 
 module.exports = users;

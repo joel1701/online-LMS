@@ -12,11 +12,11 @@ function validate(form) {
   const semester = Number(form.semester);
   const credits = Number(form.credits);
   if (!form.code.trim()) e.code = 'Course code is required.';
-  else if (!/^[A-Za-z]{2,4}\d{3}$/.test(form.code.trim())) e.code = 'Use a code such as CS305 (2–4 letters followed by 3 digits).';
+  else if (!/^[A-Za-z0-9-]{3,10}$/.test(form.code.trim())) e.code = 'Use 3–10 letters, digits or hyphens, e.g. 22ITC10N.';
   if (!form.title.trim()) e.title = 'Course title is required.';
   if (!form.department) e.department = 'Select a department.';
   if (!(Number.isInteger(semester) && semester >= 1 && semester <= 8)) e.semester = 'Select a semester.';
-  if (!(Number.isInteger(credits) && credits >= 1 && credits <= 6)) e.credits = 'Credits must be a whole number from 1 to 6.';
+  if (!(Number.isInteger(credits * 2) && credits >= 0.5 && credits <= 6)) e.credits = 'Credits must be between 0.5 and 6, in steps of 0.5.';
   if (!form.teacherId) e.teacherId = 'Assign a teacher.';
   return e;
 }
@@ -31,6 +31,7 @@ function Form({ initial, departments, teachers }) {
     department: initial ? initial.department : 'CSE',
     semester: initial ? String(initial.semester) : '1',
     credits: initial ? String(initial.credits) : '3',
+    type: initial && initial.type ? initial.type : 'theory',
     teacherId: initial && teachers.some((t) => t.id === initial.teacherId) ? initial.teacherId : '',
     description: initial ? initial.description : '',
     status: initial ? initial.status : 'active',
@@ -70,8 +71,8 @@ function Form({ initial, departments, teachers }) {
           </div>
         )}
         <div className="form-grid">
-          <FormField label="Course code" required value={form.code} onChange={set('code')} error={errors.code} placeholder="CS305" maxLength={7} />
-          <FormField label="Course title" required value={form.title} onChange={set('title')} error={errors.title} placeholder="Database Management Systems" />
+          <FormField label="Course code" required value={form.code} onChange={set('code')} error={errors.code} placeholder="22ITC10N" maxLength={10} />
+          <FormField label="Course title" required value={form.title} onChange={set('title')} error={errors.title} placeholder="Computer Networks" />
           <FormField
             as="select"
             label="Department"
@@ -102,7 +103,18 @@ function Form({ initial, departments, teachers }) {
             error={errors.semester}
             options={[1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({ value: String(n), label: `Semester ${n}` }))}
           />
-          <FormField label="Credits" required type="number" min={1} max={6} value={form.credits} onChange={set('credits')} error={errors.credits} />
+          <FormField label="Credits" required type="number" min={0.5} max={6} step={0.5} value={form.credits} onChange={set('credits')} error={errors.credits} />
+          <FormField
+            as="select"
+            label="Course type"
+            required
+            value={form.type}
+            onChange={set('type')}
+            options={[
+              { value: 'theory', label: 'Theory' },
+              { value: 'practical', label: 'Practical (lab, internship or project)' },
+            ]}
+          />
           <FormField as="textarea" className="span-all" label="Description" rows={4} value={form.description} onChange={set('description')} hint="Shown on the course overview page." />
           {editing && (
             <FormField

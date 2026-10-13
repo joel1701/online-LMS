@@ -1,9 +1,9 @@
-let counter = 1000;
+const crypto = require('crypto');
 
-// TODO: MongoDB will generate ObjectIds; remove this helper then.
+// Application-level ids (e.g. "c-mg3k2x9a1b"). They stay unique across server
+// restarts, which matters now that data is kept in MongoDB.
 function createId(prefix) {
-  counter += 1;
-  return `${prefix}${counter}`;
+  return `${prefix}${Date.now().toString(36)}${crypto.randomBytes(3).toString('hex')}`;
 }
 
 module.exports = { createId };

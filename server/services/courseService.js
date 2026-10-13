@@ -47,6 +47,15 @@ function accessibleCourseIds(user) {
   return courses.filter((c) => canAccess(user, c)).map((c) => c.id);
 }
 
+// Theory before practicals, then in the order of the semester scheme, then by code.
+function byScheme(a, b) {
+  return (
+    Number(a.type === 'practical') - Number(b.type === 'practical') ||
+    (a.order ?? 99) - (b.order ?? 99) ||
+    a.code.localeCompare(b.code)
+  );
+}
+
 function summary(course) {
   const teacher = users.find((u) => u.id === course.teacherId);
   const dept = departments.find((d) => d.code === course.department);
@@ -71,7 +80,7 @@ function list(user, { search, status, department } = {}) {
       const teacher = users.find((u) => u.id === c.teacherId);
       return [c.code, c.title, teacher && teacher.name].some((v) => v && v.toLowerCase().includes(term));
     })
-    .sort((a, b) => a.code.localeCompare(b.code))
+    .sort(byScheme)
     .map(summary);
 }
 
@@ -96,12 +105,13 @@ function validateCourse(data, existingId) {
 
   check([
     ['code', isBlank(code) && 'Course code is required.'],
-    ['code', !isBlank(code) && !/^[A-Z]{2,4}\d{3}$/.test(code) && 'Use a code such as CS305 (2–4 letters followed by 3 digits).'],
+    ['code', !isBlank(code) && !/^[A-Z0-9-]{3,10}$/.test(code) && 'Use 3–10 letters, digits or hyphens, e.g. 22ITC10N.'],
     ['code', courses.some((c) => c.id !== existingId && c.code === code && c.status === 'active') && 'An active course with this code already exists.'],
     ['title', isBlank(data.title) && 'Course title is required.'],
     ['department', !departments.some((d) => d.code === data.department && d.code !== 'ADMIN') && 'Select an academic department.'],
     ['semester', !(Number.isInteger(semester) && semester >= 1 && semester <= 8) && 'Semester must be a whole number from 1 to 8.'],
-    ['credits', !(Number.isInteger(credits) && credits >= 1 && credits <= 6) && 'Credits must be a whole number from 1 to 6.'],
+    ['credits', !(Number.isInteger(credits * 2) && credits >= 0.5 && credits <= 6) && 'Credits must be between 0.5 and 6, in steps of 0.5.'],
+    ['type', data.type && !['theory', 'practical'].includes(data.type) && 'Course type must be theory or practical.'],
     ['teacherId', (!teacher || teacher.role !== 'teacher') && 'Assign a teacher.'],
     ['teacherId', teacher && teacher.role === 'teacher' && teacher.status !== 'active' && 'This teacher account is disabled.'],
     ['status', data.status && !['active', 'archived'].includes(data.status) && 'Invalid status.'],
@@ -113,6 +123,7 @@ function validateCourse(data, existingId) {
     department: data.department,
     semester,
     credits,
+    type: data.type === 'practical' ? 'practical' : 'theory',
     teacherId: data.teacherId,
     description: String(data.description || '').trim(),
     status: data.status || 'active',
@@ -189,6 +200,7 @@ module.exports = {
   requireManage,
   accessibleCourseIds,
   summary,
+  byScheme,
   list,
   getForUser,
   create,

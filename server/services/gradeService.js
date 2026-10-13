@@ -10,15 +10,14 @@ const { forbidden, notFound } = require('../utils/httpError');
 const courseService = require('./courseService');
 const testService = require('./testService');
 
-// Westmere uses a 10-point letter scale.
+// CBIT 10-point scale: S 10, A 9, B 8, C 7, D 6, E 5, F 0 (Ab = absent, 0 points).
 const SCALE = [
-  [90, 'O', 10],
-  [80, 'A+', 9],
-  [70, 'A', 8],
-  [60, 'B+', 7],
-  [50, 'B', 6],
-  [45, 'C', 5],
-  [40, 'P', 4],
+  [90, 'S', 10],
+  [80, 'A', 9],
+  [70, 'B', 8],
+  [60, 'C', 7],
+  [50, 'D', 6],
+  [40, 'E', 5],
   [0, 'F', 0],
 ];
 
@@ -101,6 +100,7 @@ function courseGrade(course, studentId) {
     term: course.term,
     semester: course.semester,
     credits: course.credits,
+    type: course.type || 'theory',
     teacherName: teacher ? teacher.name : '',
     weights: course.weights,
     assignments: aItems,
@@ -126,7 +126,7 @@ function forStudent(user, { studentId, courseId, term } = {}) {
     .filter((c) => !courseId || c.id === courseId)
     .filter((c) => !term || c.term === term)
     .filter((c) => user.role !== 'teacher' || c.teacherId === user.id)
-    .sort((a, b) => a.code.localeCompare(b.code))
+    .sort(courseService.byScheme)
     .map((c) => courseGrade(c, targetId));
 
   if (user.role === 'teacher' && rows.length === 0) throw forbidden('This student is not enrolled in any of your courses.');

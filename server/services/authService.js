@@ -1,7 +1,8 @@
 // Demo authentication only.
-// TODO: Replace with bcrypt password hashing and signed JWTs (jsonwebtoken)
-// using JWT_SECRET. The token below is NOT secure – it is base64 JSON.
+// Passwords are checked against bcrypt hashes stored in MongoDB.
+// TODO: Replace the token with a signed JWT (jsonwebtoken + JWT_SECRET). The token below is NOT secure – it is base64 JSON.
 const userService = require('./userService');
+const { verifyPassword } = require('../utils/password');
 const { badRequest, unauthorized } = require('../utils/httpError');
 
 function issueToken(user) {
@@ -22,7 +23,7 @@ function login(identifier, password) {
     throw badRequest('Enter your university ID or email and your password.');
   }
   const user = userService.findByLogin(identifier);
-  if (!user || user.password !== password) {
+  if (!user || !verifyPassword(user, password)) {
     throw unauthorized('The university ID/email or password is incorrect.');
   }
   if (user.status !== 'active') {

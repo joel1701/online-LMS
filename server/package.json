@@ -2,15 +2,19 @@
   "name": "campuscore-server",
   "version": "1.0.0",
   "private": true,
-  "description": "Express REST API for the CampusCore learning management system (mock data layer)",
+  "description": "Express REST API for the CampusCore learning management system (MongoDB via Mongoose)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "seed": "node scripts/seed.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.9.5"
   },
   "engines": {
     "node": ">=18"

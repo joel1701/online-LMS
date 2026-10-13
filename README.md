@@ -1,6 +1,6 @@
 # CampusCore – Learning Management System
 
-CampusCore is the learning management portal of Westmere University (a fictional institution used for this project). It is built on the MERN stack. The React frontend and the Express REST API are complete; the API currently serves **in-memory mock data** so that MongoDB can be added later without changing the frontend.
+CampusCore is the learning management portal of Chaitanya Bharathi Institute of Technology, built on the MERN stack: a React frontend, an Express REST API and a MongoDB database (via Mongoose).
 
 ## Problem statement
 
@@ -43,7 +43,7 @@ Access is enforced twice: React routes are guarded by role, and every API endpoi
 | --- | --- |
 | Frontend | React 19, React Router 7, Vite, plain CSS with design tokens |
 | Backend | Node.js, Express 5, REST |
-| Database | MongoDB planned — **not connected yet** (see `DATABASE_INTEGRATION.md`) |
+| Database | MongoDB with Mongoose (see `DATABASE_INTEGRATION.md`) |
 
 No UI framework or chart library is used.
 
@@ -71,10 +71,14 @@ No UI framework or chart library is used.
 │       └── utils/             formatting, mock file download
 ├── server/                    Express API
 │   ├── controllers/
-│   ├── data/                  ALL mock data lives here
+│   ├── config/db.js           MongoDB connection
+│   ├── data/                  sample data used to seed the database
+│   ├── db/                    loads MongoDB on startup and saves changes
 │   ├── middleware/            auth, error handling, optional latency
 │   ├── routes/
-│   ├── services/              business logic (the layer to replace with MongoDB)
+│   ├── models/                Mongoose schemas (one per collection)
+│   ├── scripts/seed.js        resets the database to the sample data
+│   ├── services/              business logic
 │   ├── utils/
 │   ├── app.js
 │   └── server.js
@@ -91,6 +95,27 @@ npm run install:all
 ```
 
 This runs `npm install` in both `server/` and `client/`.
+
+### MongoDB
+
+Install and start MongoDB Community Server locally (macOS with Homebrew):
+
+```bash
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community
+```
+
+Or create a free cluster on MongoDB Atlas and copy its connection string.
+
+Then configure the API:
+
+```bash
+cp server/.env.example server/.env    # edit MONGODB_URI if you use Atlas
+npm run seed --prefix server          # loads the sample data into MongoDB
+```
+
+On the first start the API also seeds any empty collection automatically. Run `npm run seed` again whenever you want to reset the data (the sample dates are relative to the day you seed, so re-seed before a demo). If `MONGODB_URI` is empty, the API runs on the sample data in memory instead.
 
 ## Running
 
@@ -112,7 +137,7 @@ The Vite dev server proxies `/api` to the backend, so open http://localhost:5173
 
 Equivalent commands inside each folder: `cd server && npm run dev` (or `npm start`) and `cd client && npm run dev`. Production build of the frontend: `npm run build` (output in `client/dist`).
 
-Optional environment variables (see `server/.env.example`): `PORT` (default 5050), `CLIENT_ORIGIN` (CORS, default http://localhost:5173), `MOCK_LATENCY_MS` (adds a delay to every API response to demonstrate loading states). Set them in the shell, e.g. `MOCK_LATENCY_MS=600 npm run dev`. If you change `PORT`, update the proxy target in `client/vite.config.js`.
+Environment variables live in `server/.env` (see `server/.env.example`): `MONGODB_URI`, `PORT` (default 5050), `CLIENT_ORIGIN` (CORS, default http://localhost:5173) and `MOCK_LATENCY_MS` (adds a delay to every API response to demonstrate loading states). If you change `PORT`, update the proxy target in `client/vite.config.js`.
 
 ## Demo accounts
 
@@ -120,11 +145,11 @@ The login page has one-click buttons for each role. To sign in manually, all dem
 
 | Role | University ID | Email |
 | --- | --- | --- |
-| Student | WU23CS014 | joel.thomas@westmere.edu.in |
+| Student | 1601-24-737-039 | joel.thomas@westmere.edu.in |
 | Faculty | WUF1042 | ananya.rao@westmere.edu.in |
 | Administrator | WUA0007 | suresh.menon@westmere.edu.in |
 
-Other seeded users (same password) include students WU23CS002–WU23CS048 and WU24EC007–WU24EC022, and faculty WUF1017, WUF1023, WUF1056, WUF2031, WUF3008. WUF1061 and WU24EC030 are disabled accounts.
+Other seeded users (same password) include students 1601-24-737-002 to 1601-24-737-048 (CSE) and 1601-25-735-007 to 1601-25-735-022 (ECE), and faculty WUF1017, WUF1023, WUF1056, WUF2031, WUF3008. WUF1061 and 1601-25-735-030 are disabled accounts.
 
 Dr. Ananya Rao teaches CS305 (DBMS) and SE311 (Software Engineering). Joel Thomas has an open test (CS305 Quiz 2), pending assignments, one overdue assignment and graded work in every course.
 
@@ -164,14 +189,13 @@ All routes are under `/api`. Every route except `/auth/login` and `/health` requ
 
 Validation errors return `400` with `{ message, fields: { fieldName: "error" } }`, which the forms display next to each field.
 
-## Current limitations (mock data)
+## Current limitations
 
-- Data is kept in memory. Every change (submissions, grades, new users, tests) lasts until the API server restarts, then the seed data returns.
-- Mock dates are generated relative to the moment the server starts, so there is always upcoming, due-soon and overdue work.
-- Authentication is a demo: passwords are plain text in `server/data/users.js` and the token is unsigned base64. It is not secure and must be replaced (bcrypt + JWT).
+- Sample dates are generated relative to the moment the database is seeded. Re-seed (`npm run seed`) before a demo so there is upcoming, due-soon and overdue work.
+- Passwords are stored as bcrypt hashes, but the session token is unsigned base64. It should be replaced with a signed JWT.
 - File uploads are simulated: only the file name and size are stored. Files picked in the current browser session can be downloaded again; other downloads return a short placeholder text file.
 - Notifications are derived from current data; "mark as read" is kept only in the browser session.
 
-## Database integration handoff
+## Database
 
-See [`DATABASE_INTEGRATION.md`](DATABASE_INTEGRATION.md) for where the mock data lives, which services to replace, the proposed collections and relationships, and the environment variables needed.
+See [`DATABASE_INTEGRATION.md`](DATABASE_INTEGRATION.md) for the collections, schemas and how the API reads and writes MongoDB.

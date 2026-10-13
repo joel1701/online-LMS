@@ -22,7 +22,7 @@ export function validateUser(form) {
   const e = {};
   if (!form.name.trim()) e.name = 'Name is required.';
   if (!form.universityId.trim()) e.universityId = 'University ID is required.';
-  else if (!/^[A-Za-z0-9]{5,12}$/.test(form.universityId.trim())) e.universityId = 'Use 5–12 letters or digits, e.g. WU23CS014.';
+  else if (!/^[A-Za-z0-9-]{5,20}$/.test(form.universityId.trim())) e.universityId = 'Use 5–20 letters, digits or hyphens, e.g. 1601-24-737-039.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'Enter a valid email address.';
   if (!form.department) e.department = 'Select a department.';
   if (form.role === 'student') {
@@ -43,7 +43,7 @@ export default function UserForm({ form, setForm, errors, departments, formId, o
     <form id={formId} onSubmit={onSubmit} noValidate>
       <FormField label="Full name" required value={form.name} onChange={set('name')} error={errors.name} autoComplete="off" />
       <div className="form-grid">
-        <FormField label="University ID" required value={form.universityId} onChange={set('universityId')} error={errors.universityId} placeholder="WU25CS001" />
+        <FormField label="University ID" required value={form.universityId} onChange={set('universityId')} error={errors.universityId} placeholder="1601-26-737-001" />
         <FormField
           as="select"
           label="Role"

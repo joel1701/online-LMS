@@ -17,7 +17,7 @@ export default function CourseListItem({ course, compact }) {
           {!compact && (
             <>
               {' · '}
-              {course.credits} credits · Semester {course.semester}
+              {course.credits} {course.credits === 1 ? 'credit' : 'credits'} · Semester {course.semester}
             </>
           )}
         </div>
