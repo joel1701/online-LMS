@@ -76,22 +76,29 @@ const users = [
     joinedOn: '2019-01-14',
   },
 
-  teacher('u-t1', 'WUF1042', 'Dr. Ananya Rao', 'ananya.rao@westmere.edu.in', 'CSE', 'Associate Professor', {
+  teacher('u-t1', 'WUF1042', 'Dr. B. Veera Jyothi', 'veerajyothi_it@cbit.ac.in', 'CSE', 'Associate Professor', {
     office: 'CSE Block, Room 312',
-    phone: '+91 80 4120 7312',
     joinedOn: '2015-07-20',
   }),
-  teacher('u-t2', 'WUF1017', 'Prof. Vikram Shah', 'vikram.shah@westmere.edu.in', 'CSE', 'Professor and Head of Department', {
+  teacher('u-t2', 'WUF1017', 'Dr. T. Prathima', 'tprathima_it@cbit.ac.in', 'CSE', 'Professor', {
     office: 'CSE Block, Room 301',
     joinedOn: '2009-08-03',
   }),
-  teacher('u-t3', 'WUF1056', 'Dr. Meenakshi Iyer', 'meenakshi.iyer@westmere.edu.in', 'CSE', 'Assistant Professor', {
+  teacher('u-t3', 'WUF1056', 'Dr. P. Ramesh Babu', 'prameshbabu_it@cbit.ac.in', 'CSE', 'Assistant Professor', {
     office: 'CSE Block, Room 318',
     joinedOn: '2019-07-15',
   }),
-  teacher('u-t4', 'WUF1023', 'Prof. Rajesh Kumar', 'rajesh.kumar@westmere.edu.in', 'CSE', 'Associate Professor', {
+  teacher('u-t4', 'WUF1023', 'Ms. T. Madhuri', 'tmadhuri_it@cbit.ac.in', 'CSE', 'Associate Professor', {
     office: 'CSE Block, Room 309',
     joinedOn: '2012-01-09',
+  }),
+  teacher('u-t8', 'WUF1071', 'Dr. R M Krishna Sureddi', 'rmkrishnasureddi_it@cbit.ac.in', 'CSE', 'Associate Professor', {
+    office: 'CSE Block, Room 314',
+    joinedOn: '2011-07-04',
+  }),
+  teacher('u-t9', 'WUF1078', 'Mr. R. Sai Venkat', 'saivenkatr_it@cbit.ac.in', 'CSE', 'Assistant Professor', {
+    office: 'CSE Block, Room 320',
+    joinedOn: '2020-07-13',
   }),
   teacher('u-t5', 'WUF2031', 'Dr. Lakshmi Narayanan', 'lakshmi.narayanan@westmere.edu.in', 'ECE', 'Professor and Head of Department', {
     office: 'ECE Block, Room 201',
