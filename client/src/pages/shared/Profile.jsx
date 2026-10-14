@@ -83,7 +83,7 @@ export default function Profile() {
 
   return (
     <>
-      <PageHeader title="Profile" meta="Your record as held by the Registrar’s Office." />
+      <PageHeader title="Profile" meta={user.role === 'admin' ? 'Your administrator account details.' : 'Your record as held by the Registrar’s Office.'} />
 
       <div className="profile-layout">
         <section className="panel" aria-labelledby="profile-details">
@@ -107,7 +107,11 @@ export default function Profile() {
               ))}
             </dl>
             <p className="small muted" style={{ marginTop: 16, marginBottom: 0 }}>
-              Name, ID, program and department can only be changed by the Registrar’s Office.
+              {user.role === 'admin' ? (
+                <>As an administrator you can change these details from <Link to="/admin/users">Users</Link>.</>
+              ) : (
+                'Name, ID, program and department can only be changed by the Registrar’s Office.'
+              )}
             </p>
           </div>
         </section>

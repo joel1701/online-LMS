@@ -146,12 +146,12 @@ The login page has one-click buttons for each role. To sign in manually, all dem
 | Role | University ID | Email |
 | --- | --- | --- |
 | Student | 1601-24-737-039 | joel.thomas@westmere.edu.in |
-| Faculty | WUF1042 | ananya.rao@westmere.edu.in |
+| Faculty | WUF1042 | veerajyothi_it@cbit.ac.in |
 | Administrator | WUA0007 | suresh.menon@westmere.edu.in |
 
-Other seeded users (same password) include students 1601-24-737-002 to 1601-24-737-048 (CSE) and 1601-25-735-007 to 1601-25-735-022 (ECE), and faculty WUF1017, WUF1023, WUF1056, WUF2031, WUF3008. WUF1061 and 1601-25-735-030 are disabled accounts.
+Other seeded users (same password) include students 1601-24-737-002 to 1601-24-737-048 (CSE) and 1601-25-735-007 to 1601-25-735-022 (ECE), and faculty WUF1017, WUF1023, WUF1056, WUF1071, WUF1078, WUF2031, WUF3008. WUF1061 and 1601-25-735-030 are disabled accounts.
 
-Dr. Ananya Rao teaches CS305 (DBMS) and SE311 (Software Engineering). Joel Thomas has an open test (CS305 Quiz 2), pending assignments, one overdue assignment and graded work in every course.
+Dr. B. Veera Jyothi (WUF1042) teaches 22CSC21N Software Engineering and 22CSC49 Software Engineering Lab. Joel Thomas has an open test (CS305 Quiz 2), pending assignments, one overdue assignment and graded work in every course.
 
 ## API overview
 

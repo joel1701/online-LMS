@@ -24,13 +24,13 @@ const assignments = [
 
   a('as-03', 'c-flat', 'DFA Design Exercise',
     'Design DFAs for the eight languages listed in the brief. For each, give the transition diagram and the transition table, and trace the machine on two accepted and two rejected strings.',
-    25, -12, 15, null, 'u-t1'),
+    25, -12, 15, null, 'u-t8'),
   a('as-04', 'c-flat', 'NFA to DFA Conversion and Minimisation',
     'Convert each of the five NFAs in the brief to an equivalent DFA using the subset construction, then minimise the resulting DFA using the table-filling method. Show every step.',
-    10, -1, 20, { name: 'NFA_Conversion_Exercise.pdf', size: '95 KB' }, 'u-t1'),
+    10, -1, 20, { name: 'NFA_Conversion_Exercise.pdf', size: '95 KB' }, 'u-t8'),
   a('as-05', 'c-flat', 'JFLAP Exercise – Regular Expressions to NFA',
     'Using JFLAP, build ε-NFAs for the 12 regular expressions in the exercise sheet and test each with the given strings. Submit the .jff files in one ZIP, named by question number.',
-    2, 6, 25, { name: 'jflap_exercises.pdf', size: '64 KB' }, 'u-t1'),
+    2, 6, 25, { name: 'jflap_exercises.pdf', size: '64 KB' }, 'u-t8'),
 
   a('as-06', 'c-cn', 'Subnetting Worksheet',
     'Complete all subnetting and VLSM questions on the worksheet. Show the network address, broadcast address and usable host range for every subnet.',
@@ -55,10 +55,10 @@ const assignments = [
 
   a('as-14', 'c-spm', 'Project Plan and Work Breakdown Structure',
     'Prepare a project charter and a work breakdown structure for your team project. Identify at least 25 work packages and draw the activity network with the critical path.',
-    16, -5, 20, null, 'u-t3'),
+    16, -5, 20, null, 'u-t9'),
   a('as-15', 'c-spm', 'COCOMO II Effort Estimation',
     'Estimate the effort, duration and team size for the case study in the brief using the COCOMO II early design model. State every cost driver you assume and justify it.',
-    3, 9, 15, { name: 'SPM_COCOMO_CaseStudy.pdf', size: '140 KB' }, 'u-t3'),
+    3, 9, 15, { name: 'SPM_COCOMO_CaseStudy.pdf', size: '140 KB' }, 'u-t9'),
 
   a('as-16', 'c-se-lab', 'Lab Record – Experiments 1 to 4',
     'Submit the lab record for experiments 1 to 4: problem statement, SRS, use case diagram and use case descriptions for your team project.',

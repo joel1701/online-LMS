@@ -35,7 +35,7 @@ const tests = [
     availableUntil: daysFromNow(2, 23, 59),
     status: 'published',
     showAnswers: true,
-    createdBy: 'u-t1',
+    createdBy: 'u-t8',
     createdAt: daysFromNow(-4, 16, 0),
     questions: [
       q('q-0201', 'The class of languages accepted by finite automata is the class of:', ['Context-free languages', 'Regular languages', 'Recursive languages', 'Context-sensitive languages'], 1, 1),
@@ -58,7 +58,7 @@ const tests = [
     availableUntil: daysFromNow(-16, 13, 0),
     status: 'published',
     showAnswers: true,
-    createdBy: 'u-t1',
+    createdBy: 'u-t8',
     createdAt: daysFromNow(-20, 11, 0),
     questions: [
       q('q-0301', 'A DFA differs from an NFA in that:', ['A DFA may have ε-transitions', 'Every state of a DFA has exactly one transition for each input symbol', 'A DFA accepts a larger class of languages', 'A DFA has no final states'], 1, 4),

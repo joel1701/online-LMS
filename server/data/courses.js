@@ -99,7 +99,7 @@ const courses = [
     type: 'theory',
     order: 4,
     credits: 3,
-    teacherId: 'u-t1',
+    teacherId: 'u-t8',
     weights: { assignments: 40, tests: 60 },
     description:
       'Mathematical models of computation. Finite automata, regular expressions and regular languages, context-free grammars and pushdown automata, Turing machines and an introduction to decidability.',
@@ -147,7 +147,7 @@ const courses = [
     type: 'theory',
     order: 6,
     credits: 3,
-    teacherId: 'u-t3',
+    teacherId: 'u-t9',
     weights: { assignments: 50, tests: 50 },
     description:
       'Professional Elective – 2. Planning, estimating and controlling software projects: project life cycles, work breakdown structures, effort and cost estimation, scheduling, risk management, and agile project management.',
